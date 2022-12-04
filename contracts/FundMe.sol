@@ -4,6 +4,7 @@ pragma solidity ^0.8.7;
 // 2. Imports
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import "./PriceConverter.sol";
+import "hardhat/console.sol";
 
 // 3. Interfaces, Libraries, Contracts
 error FundMe__NotOwner();
@@ -18,7 +19,7 @@ contract FundMe {
     using PriceConverter for uint256;
 
     // State variables
-    uint256 public constant MINIMUM_USD = 50 * 10**18;
+    uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
     address private immutable i_owner;
     address[] private s_funders;
     mapping(address => uint256) private s_addressToAmountFunded;
@@ -60,6 +61,7 @@ contract FundMe {
     }
 
     function withdraw() public onlyOwner {
+        console.log("dingus");
         for (
             uint256 funderIndex = 0;
             funderIndex < s_funders.length;
@@ -96,11 +98,9 @@ contract FundMe {
      *  @param fundingAddress the address of the funder
      *  @return the amount funded
      */
-    function getAddressToAmountFunded(address fundingAddress)
-        public
-        view
-        returns (uint256)
-    {
+    function getAddressToAmountFunded(
+        address fundingAddress
+    ) public view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
 
